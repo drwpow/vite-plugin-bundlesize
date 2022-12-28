@@ -37,18 +37,7 @@ Make sure you’ve built your project first (`vite build`). Then, inspect your b
 npx bundlesize
 ```
 
-By default, it will only show the composition of entry chunks whose size exceeds your [limits](#enforcing-size-limits) (default: `150 kB`). In order to view the composition of all chunks, set `stats: 'all'`:
-
-```diff
-  import { defineConfig } from 'vite';
-  import bundlesize from 'vite-plugin-bundlesize';
-
-  export default defineConfig({
-    plugins: [
-      bundlesize({
-+       stats: 'all',
-      }),
-```
+This will reuse the existing data saved to `bundlemeta.json` from the last build. If your code has changed at all, you’ll need to rerun `vite build` to update the cache.
 
 ### Enforcing size limits
 
@@ -71,8 +60,9 @@ Add a `limits` option to enforce limits on entry files:
   });
 ```
 
-- The `name` field is a glob matched by [picomatch](https://github.com/micromatch/picomatch). Note that **only the first match will apply** so order limits from more specific to least specific.
+- The `name` field is a glob matched by [picomatch](https://github.com/micromatch/picomatch).
 - The `limit` field can be any human-readable size. We recommend `150 kB` which is the default, but you may raise or lower that number as needed.
+- The order of the array matters. Only the first `name` a file matches with will apply, so order your matches from more-specific to less-specific.
 
 Note that **only entry files are checked.** vite-plugin-bundlesize won’t measure lazy-loaded code because that is not render blocking. Ideally this helps you focus on only meaningful metrics in regards to bundle sizes.
 
@@ -112,7 +102,7 @@ By default, this plugin will **cause `vite build` to error and exit** when a chu
   });
 ```
 
-This requires you run `npx bundlesize` after every build to throw an error (including in CI).
+If `allowFail: true` is set, you’ll have to run `npx bundlesize` after every build to throw an error (including in CI).
 
 ## All options
 
