@@ -1,0 +1,15 @@
+{
+	"compilerOptions": {
+		"allowSyntheticDefaultImports": true,
+		"baseUrl": ".",
+		"declaration": true,
+		// "noUnusedLocals": true,
+		// "noUnusedParameters": false,
+		"outDir": "dist",
+		"strict": true,
+		"target": "ESNext",
+		"module": "ESNext",
+		"moduleResolution": "node"
+	},
+	"include": ["src"]
+}

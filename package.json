@@ -1,0 +1,63 @@
+{
+	"name": "vite-plugin-bundlesize",
+	"version": "0.0.1",
+	"description": "Monitor bundle sizes and analyze bundle contents",
+	"type": "module",
+	"scripts": {
+		"build": "npm run clean && npm run build:ts && npm run build:core && npm run build:plugin",
+		"build:core": "esbuild --bundle src/core/index.ts --outfile=dist/core/index.js --platform=node --format=esm --target=esnext --packages=external --minify",
+		"build:plugin": "esbuild --bundle src/plugin/index.ts --outfile=dist/plugin/index.cjs --platform=node --format=cjs --target=esnext --packages=external --minify",
+		"build:ts": "tsc && del dist/plugin/index.js",
+		"dev": "npm run build:core -- --watch",
+		"clean": "del dist",
+		"lint": "npm run lint:js && npm run lint:ts",
+		"lint:js": "eslint \"src/**/*.{js,ts}\"",
+		"test": "vitest run",
+		"version": "npm run build"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/drwpow/vite-plugin-bundlesize.git"
+	},
+	"keywords": [
+		"vite",
+		"bundle",
+		"esbuild",
+		"bundlesize",
+		"webpack-bundle-analyzer"
+	],
+	"author": {
+		"name": "Drew Powers",
+		"email": "drew@pow.rs"
+	},
+	"license": "MIT",
+	"bugs": {
+		"url": "https://github.com/drwpow/vite-plugin-bundlesize/issues"
+	},
+	"homepage": "https://github.com/drwpow/vite-plugin-bundlesize#readme",
+	"bin": {
+		"bundlesize": "./bin/cli.js"
+	},
+	"main": "./dist/plugin/index.cjs",
+	"peerDependencies": {
+		"vite": ">= 3.0.0"
+	},
+	"dependencies": {
+		"picomatch": "^2.3.1",
+		"vlq": "^2.0.4"
+	},
+	"devDependencies": {
+		"@types/picomatch": "^2.3.0",
+		"@typescript-eslint/eslint-plugin": "^5.47.1",
+		"@typescript-eslint/parser": "^5.47.1",
+		"del-cli": "^5.0.0",
+		"esbuild": "^0.16.12",
+		"eslint": "^8.30.0",
+		"eslint-config-prettier": "^8.5.0",
+		"eslint-plugin-prettier": "^4.2.1",
+		"prettier": "^2.8.1",
+		"typescript": "^4.9.4",
+		"vite": "^4.0.3",
+		"vitest": "^0.26.2"
+	}
+}
