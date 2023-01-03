@@ -29,15 +29,17 @@ And add to your [Vite config plugins](https://vitejs.dev/config/shared-options.h
   });
 ```
 
+Now whenever you run `vite build`, a `bundlemeta.json` file will be created. It’s recommended to add this to `.gitignore` as most people don’t need to track this. This is created only so you can inspect your bundle without having to do a fresh build each time.
+
 ### Visualizing your bundle
 
-Make sure you’ve built your project first (`vite build`). Then, inspect your bundle composition by running the following command:
+Make sure you’ve built your project first (`vite build`). Then, inspect your bundle composition by running the following command from the project root:
 
 ```
 npx bundlesize
 ```
 
-This will reuse the existing data saved to `bundlemeta.json` from the last build. If your code has changed at all, you’ll need to rerun `vite build` to update the cache.
+This will reuse the existing data saved to `bundlemeta.json` from the last build. If your code has changed at all, you’ll need to rerun `vite build` to regenerate that.
 
 ### Enforcing size limits
 
