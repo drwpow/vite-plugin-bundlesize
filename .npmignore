@@ -3,6 +3,4 @@ eslint.config.js
 **/*.test.*
 docs
 example
-pnpm-workspace.yaml
-scripts
 tsconfig.json

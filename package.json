@@ -4,10 +4,8 @@
 	"description": "Monitor bundle sizes and analyze bundle contents",
 	"type": "module",
 	"scripts": {
-		"build": "npm run clean && npm run build:ts && npm run build:core && npm run build:plugin",
-		"build:core": "esbuild --bundle src/core/index.ts --outfile=dist/core/index.js --platform=node --format=esm --target=esnext --packages=external --minify",
-		"build:plugin": "esbuild --bundle src/plugin/index.ts --outfile=dist/plugin/index.cjs --platform=node --format=cjs --target=esnext --packages=external --minify",
-		"build:ts": "tsc && del dist/plugin/index.js",
+		"build": "npm run clean && npm run build:ts",
+		"build:ts": "tsc",
 		"dev": "npm run build:core -- --watch",
 		"clean": "del dist",
 		"lint": "npm run lint:js && npm run lint:ts",
@@ -38,7 +36,7 @@
 	"bin": {
 		"bundlesize": "./bin/cli.js"
 	},
-	"main": "./dist/plugin/index.cjs",
+	"main": "dist/plugin/index.js",
 	"peerDependencies": {
 		"vite": ">= 3.0.0"
 	},
@@ -48,15 +46,14 @@
 	},
 	"devDependencies": {
 		"@types/picomatch": "^2.3.0",
-		"@typescript-eslint/eslint-plugin": "^5.48.0",
-		"@typescript-eslint/parser": "^5.48.0",
+		"@typescript-eslint/eslint-plugin": "^5.49.0",
+		"@typescript-eslint/parser": "^5.49.0",
 		"del-cli": "^5.0.0",
-		"esbuild": "^0.16.13",
-		"eslint": "^8.31.0",
+		"eslint": "^8.33.0",
 		"eslint-config-prettier": "^8.6.0",
 		"eslint-plugin-prettier": "^4.2.1",
-		"prettier": "^2.8.1",
-		"typescript": "^4.9.4",
+		"prettier": "^2.8.3",
+		"typescript": "^4.9.5",
 		"vite": "^4.0.4",
 		"vitest": "^0.26.3"
 	}
