@@ -43,7 +43,7 @@ export default function vitePluginBundlesize(options?: Config): Plugin {
 		stats: options?.stats === 'all' ? 'all' : 'summary',
 	};
 
-	const {version} = JSON.parse(fs.readFileSync(path.join(__dirname, '../../package.json'), 'utf8'));
+	const {version} = JSON.parse(fs.readFileSync(new URL('../../package.json', import.meta.url), 'utf8'));
 
 	let bundlemeta: BundleMetadata = {chunks: {}};
 	return {
@@ -98,8 +98,10 @@ ${FG_RED_197}✘ vite-plugin-bundlesize: needs "build.sourcemap" enabled.${RESET
 						// mark packageName
 						const parts = filePath.split(path.sep);
 						if (parts.indexOf('node_modules') !== -1) {
-							let packageName = parts[parts.indexOf('node_modules') + 1];
-							if (packageName[0] === '@') packageName = `${packageName}/${parts[parts.indexOf('node_modules') + 2]}`;
+							let packageNameI = parts.indexOf('node_modules') + 1;
+							if (parts[packageNameI] === '.pnpm') packageNameI++;
+							let packageName = parts[packageNameI];
+							if (packageName[0] === '@') packageName = `${packageName}/${parts[packageNameI + 2]}`;
 							if (packageName == '--') console.log({filePath});
 							contents[filePath].packageName = packageName;
 						}
