@@ -20,7 +20,8 @@ export default function analyze({bundlemeta, config, version}: {bundlemeta: Bund
 	for (const entry of Object.values(bundlemeta.chunks)) {
 		if (!entry.isEntry) continue;
 		const limit = config.limits.find((l) => picomatch(l.name)(entry.id)) || {name: '**/*', limit: DEFAULT_LIMIT};
-		passed.push(limit.limit === Infinity || limit.limit < 0 || entry.size <= limit.limit);
+		const maxSize = typeof limit.limit === 'string' ? parseSize(limit.limit) : limit.limit;
+		passed.push(maxSize === Infinity || limit.limit <= 0 || entry.size <= maxSize);
 		chunks.push(entry);
 		sizes.push(nf.format(entry.size / 1000));
 		limits.push(`${nf.format((typeof limit.limit === 'string' ? parseSize(limit.limit) : limit.limit) / 1000)} kB`);
