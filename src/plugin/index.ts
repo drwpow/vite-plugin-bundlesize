@@ -60,6 +60,7 @@ ${FG_RED_197}✘ vite-plugin-bundlesize: needs "build.sourcemap" enabled.${RESET
 			}
 		},
 		generateBundle(options, bundle) {
+			if (config.mode !== 'production') return; // ignore dev server, etc.
 			for (const [chunkID, chunk] of Object.entries(bundle)) {
 				if (chunk.type !== 'chunk' || !chunk.isEntry) continue;
 				if (!chunk.map) {
