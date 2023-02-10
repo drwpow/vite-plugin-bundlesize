@@ -10,13 +10,22 @@ Inspired by [webpack-bundle-analyzer](https://github.com/webpack-contrib/webpack
 
 ## Setup
 
+### Requirements
+
+- **Vite 4.x**. For most users on 3.x this should be a painless upgrade.
+- `"type": "module"` enabled in your project’s `package.json` ([docs](https://nodejs.org/api/packages.html#type))
+
+### Installing
+
 Install from npm:
 
 ```
 npm install --dev vite-plugin-bundlesize
 ```
 
-And add to your [Vite config plugins](https://vitejs.dev/config/shared-options.html#plugins):
+### Config
+
+And add to your [Vite config plugins](https://vitejs.dev/config/shared-options.html#plugins). Also be sure to enable [sourcemaps](https://vitejs.dev/config/build-options.html#build-sourcemap) as this is needed to calculate the sizes more accurately (setting it to `hidden` is recommended):
 
 ```diff
   import { defineConfig } from 'vite';
@@ -26,10 +35,13 @@ And add to your [Vite config plugins](https://vitejs.dev/config/shared-options.h
     plugins: [
 +     bundlesize(),
     ],
++   build: {
++     sourcemap: 'hidden',
++   },
   });
 ```
 
-Now whenever you run `vite build`, a `bundlemeta.json` file will be created. It’s recommended to add this to `.gitignore` as most people don’t need to track this. This is created only so you can inspect your bundle without having to do a fresh build each time.
+Now whenever you run `npx vite build`, a `bundlemeta.json` file will be created. It’s recommended to add this to `.gitignore` as most people don’t need to track this. This is created only so you can inspect your bundle without having to do a fresh build each time.
 
 ### Visualizing your bundle
 
@@ -54,7 +66,7 @@ Add a `limits` option to enforce limits on entry files:
 -     bundlesize(),
 +     bundlesize({
 +       limits: [
-+         {name: 'index.*.js', limit: '100 kB'},
++         {name: 'assets/index-*.js', limit: '100 kB'},
 +         {name: '**/*',       limit: '150 kB'},
 +       ],
 +     }),
@@ -114,3 +126,14 @@ If `allowFail: true` is set, you’ll have to run `npx bundlesize` after every b
 | `limits`     |      `Limit[]`       | See [enforcing size limits](#enforcing-size-limits)                                |
 | `allowFail`  |      `boolean`       | Allow `vite build` to succeed even if limits are exceeded ([docs](#exiting-build)) |
 | `stats`      | `'summary' \| 'all'` | Show a **summary** of failed chunks (default), or view **all** stats.              |
+
+## Troubleshooting
+
+### Error `[ERR_REQUIRE_ESM]`
+
+If you get the following error add `"type": "module"` to your top-level `package.json` ([docs](https://nodejs.org/api/packages.html#type)). For most users using Vite this won’t have any impact (and is recommended to do anyway).
+
+```
+Error [ERR_REQUIRE_ESM]: require() of ES Module /…/vite-plugin-bundlesize/dist/plugin/index.js from /…/vite-plugin-bundlesize/example/vite-react/vite.config.ts not supported.
+Instead change the require of index.js in /…/vite-plugin-bundlesize/example/vite-react/vite.config.ts to a dynamic import() which is available in all CommonJS modules.
+```

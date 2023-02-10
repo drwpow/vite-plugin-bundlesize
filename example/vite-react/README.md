@@ -4,10 +4,11 @@ With [pnpm](https://pnpm.io/) installed:
 
 ```
 pnpm i
-npm run dev:viz
+npm run build
+npx bundlesize
 ```
 
-You’ll then see a bundlesize visualier appear at `localhost:5888`.
+You’ll then see a bundlesize print out.
 
 ⚠️ **This app has some intentional code problems!** It will also **fail** its bundlesize check. So keep in mind that this shows the reason why you’d use a bundle analyzer; not how you should structure your application.
 

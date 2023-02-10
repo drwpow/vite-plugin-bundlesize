@@ -50,6 +50,7 @@ export default function vitePluginBundlesize(options?: Config): Plugin {
 		// expose resolved config for `npx bundlesize`
 		...({_internalConfig: resolvedOptions} as any),
 		name: 'vite-plugin-bundlesize',
+		apply: 'build', // only run on build
 		config(cfg) {
 			config = cfg;
 			if (!config.build?.sourcemap) {
@@ -60,7 +61,6 @@ ${FG_RED_197}✘ vite-plugin-bundlesize: needs "build.sourcemap" enabled.${RESET
 			}
 		},
 		generateBundle(options, bundle) {
-			if (config.mode !== 'production') return; // ignore dev server, etc.
 			for (const [chunkID, chunk] of Object.entries(bundle)) {
 				if (chunk.type !== 'chunk' || !chunk.isEntry) continue;
 				if (!chunk.map) {
@@ -103,7 +103,6 @@ ${FG_RED_197}✘ vite-plugin-bundlesize: needs "build.sourcemap" enabled.${RESET
 							if (parts[packageNameI] === '.pnpm') packageNameI++;
 							let packageName = parts[packageNameI];
 							if (packageName[0] === '@') packageName = `${packageName}/${parts[packageNameI + 2]}`;
-							if (packageName == '--') console.log({filePath});
 							contents[filePath].packageName = packageName;
 						}
 					}

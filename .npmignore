@@ -4,3 +4,4 @@ eslint.config.js
 docs
 example
 tsconfig.json
+pnpm-workspace.yaml

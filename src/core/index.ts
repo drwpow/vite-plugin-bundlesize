@@ -1,6 +1,6 @@
 import type {BundleChunk, BundleMetadata} from './types.js';
 import picomatch from 'picomatch';
-import {DIM, FG_GREEN_79, FG_MAGENTA_200, FG_RED_197, padLeft, padRight, parseSize, RESET} from './lib.js';
+import {DIM, FG_GREEN_79, FG_MAGENTA_200, FG_RED_197, FG_YELLOW_220, padLeft, padRight, parseSize, RESET} from './lib.js';
 import {type ResolvedConfig} from '../plugin/index.js';
 
 export const DEFAULT_LIMIT = 150000; // 150 kB
@@ -19,7 +19,9 @@ export default function analyze({bundlemeta, config, version}: {bundlemeta: Bund
 	const limits: string[] = [];
 	for (const entry of Object.values(bundlemeta.chunks)) {
 		if (!entry.isEntry) continue;
-		const limit = config.limits.find((l) => picomatch(l.name)(entry.id)) || {name: '**/*', limit: DEFAULT_LIMIT};
+		const globMatch = config.limits.find((l) => picomatch(l.name)(entry.id));
+		if (!globMatch) console.log(`${FG_YELLOW_220}! Entry "${entry.id}" not matched by any patterns in bundlesize.limits. Using default size of 150 kB.`);
+		const limit = globMatch || {name: '**/*', limit: DEFAULT_LIMIT};
 		const maxSize = typeof limit.limit === 'string' ? parseSize(limit.limit) : limit.limit;
 		passed.push(maxSize === Infinity || limit.limit <= 0 || entry.size <= maxSize);
 		chunks.push(entry);
