@@ -67,7 +67,7 @@ Add a `limits` option to enforce limits on entry files:
 +     bundlesize({
 +       limits: [
 +         {name: 'assets/index-*.js', limit: '100 kB'},
-+         {name: '**/*',       limit: '150 kB'},
++         {name: '**/*',              limit: '150 kB'},
 +       ],
 +     }),
     ],
@@ -92,9 +92,9 @@ To ignore a chunk, set `limit: Infinity`:
     plugins: [
       bundlesize({
         limits: [
-          {name: 'index.*.js',   limit: '100 kB'},
-+         {name: 'ignored.*.js', limit: Infinity},
-          {name: '**/*',         limit: '150 kB'},
+          {name: 'assets/index-*.js',   limit: '100 kB'},
++         {name: 'assets/ignored-*.js', limit: Infinity},
+          {name: '**/*',                limit: '150 kB'},
         ],
       }),
 ```
