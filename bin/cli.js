@@ -23,8 +23,9 @@ if (args.includes('--version')) {
 
 function printHelp() {
 	console.log(`bundlesize [options]
-	--help         Display this message
-	--version      Display the version
+    --help       Display this message
+    --version    Display the version
+    --stats      Specify --stats=all to show all sizes
 `);
 }
 
@@ -46,7 +47,14 @@ ${FG_GREEN_79}+     bundlesize()${RESET}`);
 		process.exit(1);
 	}
 	const config = plugin._internalConfig;
+
+	// flag overrides
 	config.allowFail = false; // since this is run manually, override config
+
+	// --stats
+	if (args.includes('--stats=all')) config.stats = 'all';
+	else if (args.includes('--stats=summary')) config.stats = 'summary';
+
 	if (!fs.existsSync(config.outputFile)) {
 		const outputFile = config.outputFile.href.replace(new URL(`file://${process.cwd()}/`).href, '');
 		console.error(`${FG_RED_197}✘ vite-plugin-bundlesize: ${outputFile} not found. Run \`vite build\` to create it.${RESET}`);
