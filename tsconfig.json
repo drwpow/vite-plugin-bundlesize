@@ -6,11 +6,11 @@
 		"esModuleInterop": true,
 		"module": "ESNext",
 		"moduleResolution": "node",
-		// "noUnusedLocals": true,
-		// "noUnusedParameters": false,
+		"noUnusedLocals": true,
+		"noUnusedParameters": true,
 		"outDir": "dist",
 		"strict": true,
-		"target": "ESNext"
+		"target": "ESNext",
 	},
 	"include": ["src"]
 }

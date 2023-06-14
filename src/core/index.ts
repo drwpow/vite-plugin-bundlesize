@@ -23,7 +23,7 @@ export default function analyze({bundlemeta, config, version}: {bundlemeta: Bund
 		if (!globMatch) console.log(`${FG_YELLOW_220}! Entry "${entry.id}" not matched by any patterns in bundlesize.limits. Using default size of 150 kB.`);
 		const limit = globMatch || {name: '**/*', limit: DEFAULT_LIMIT};
 		const maxSize = typeof limit.limit === 'string' ? parseSize(limit.limit) : limit.limit;
-		passed.push(maxSize === Infinity || limit.limit <= 0 || entry.size <= maxSize);
+		passed.push(maxSize === Infinity || maxSize <= 0 || entry.size <= maxSize);
 		chunks.push(entry);
 		sizes.push(nf.format(entry.size / 1000));
 		limits.push(`${nf.format((typeof limit.limit === 'string' ? parseSize(limit.limit) : limit.limit) / 1000)} kB`);

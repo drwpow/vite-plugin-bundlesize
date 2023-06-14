@@ -2,7 +2,7 @@
 export default {
 	files: ['src/**/*.(js|ts)'],
 	parser: '@typescript-eslint',
-	extends: ['eslint:recommended', 'plugin:@typescript-eslint/recommended', 'prettier', 'plugin:prettier/recommended'],
+	extends: ['eslint:recommended', 'plugin:@typescript-eslint/strict', 'prettier', 'plugin:prettier/recommended'],
 	plugins: ['@typescript-eslint', 'prettier'],
 	rules: {
 		'no-console': 'error',

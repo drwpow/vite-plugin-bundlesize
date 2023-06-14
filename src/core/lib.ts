@@ -9,7 +9,7 @@ export const SIZE_CONVERSION = {
 	pb: 10 ** 15, // extra cheeky
 };
 
-// note: this is NOT comprehensive as only some coloring
+/** note: this is NOT comprehensive; only strips coloring this lib uses */
 export const ANSI_COLOR_REGEX = /\u001b[^m]+m/g;
 
 /** interpret human-readable sizes as bytes */
@@ -31,11 +31,13 @@ export function parseSize(size: string): number {
 }
 
 export function padLeft(str: string, length: number): string {
-	return ' '.repeat(length - str.replace(ANSI_COLOR_REGEX, '').length) + str;
+	const len = Math.max(length - str.replace(ANSI_COLOR_REGEX, '').length, 0);
+	return ' '.repeat(len) + str;
 }
 
 export function padRight(str: string, length: number): string {
-	return str + ' '.repeat(length - str.replace(ANSI_COLOR_REGEX, '').length);
+	const len = Math.max(length - str.replace(ANSI_COLOR_REGEX, '').length, 0);
+	return str + ' '.repeat(len);
 }
 
 /**

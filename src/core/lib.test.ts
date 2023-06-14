@@ -1,5 +1,5 @@
 import {describe, expect, test} from 'vitest';
-import {parseSize} from './lib.js';
+import {padLeft, padRight, parseSize} from './lib.js';
 
 describe('parseSize', () => {
 	const tests: [string, number][] = [
@@ -13,5 +13,17 @@ describe('parseSize', () => {
 
 	test.each(tests)('%s', (given, expected) => {
 		expect(parseSize(given)).toBe(expected);
+	});
+});
+
+describe('padLeft', () => {
+	test('ignores negative numbers', () => {
+		expect(padLeft('myString', -10)).toBe('myString');
+	});
+});
+
+describe('padRight', () => {
+	test('ignores negative numbers', () => {
+		expect(padRight('myString', -10)).toBe('myString');
 	});
 });

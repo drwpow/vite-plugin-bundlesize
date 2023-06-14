@@ -60,7 +60,7 @@ ${FG_RED_197}✘ vite-plugin-bundlesize: needs "build.sourcemap" enabled.${RESET
 				process.exit(1);
 			}
 		},
-		generateBundle(options, bundle) {
+		generateBundle(_, bundle) {
 			for (const [chunkID, chunk] of Object.entries(bundle)) {
 				if (chunk.type !== 'chunk' || !chunk.isEntry) continue;
 				if (!chunk.map) {
@@ -80,8 +80,6 @@ ${FG_RED_197}✘ vite-plugin-bundlesize: needs "build.sourcemap" enabled.${RESET
 					const cols = mapLines[l].split(',');
 					for (let c = 0; c < cols.length; c++) {
 						if (!cols[c]) continue;
-						let lastCol = fields[0];
-						let lastFilePathI = fields[1];
 						// get current values from modifying previous values, per the spec
 						const nextFields = vlq.decode(cols[c]);
 						for (let i = 0; i < nextFields.length; i++) {
@@ -89,7 +87,7 @@ ${FG_RED_197}✘ vite-plugin-bundlesize: needs "build.sourcemap" enabled.${RESET
 								fields[i] += nextFields[i];
 							}
 						}
-						const [col, filePathI, srcLn, srcCol, nameI] = fields;
+						const [col, filePathI] = fields;
 						const filePath: string = chunk.map.sources[filePathI];
 						if (!(filePath in contents)) contents[filePath] = {filePath, size: 0};
 						// size
