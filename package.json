@@ -1,6 +1,6 @@
 {
   "name": "vite-plugin-bundlesize",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "Monitor bundle sizes and analyze bundle contents",
   "type": "module",
   "scripts": {
