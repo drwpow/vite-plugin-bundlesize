@@ -12,7 +12,7 @@ Inspired by [webpack-bundle-analyzer](https://github.com/webpack-contrib/webpack
 
 ### Requirements
 
-- **Vite 4.x**. For most users on 3.x this should be a painless upgrade.
+- **Vite 4.x/5.x**
 - `"type": "module"` enabled in your project’s `package.json` ([docs](https://nodejs.org/api/packages.html#type))
 
 ### Installing

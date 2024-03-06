@@ -1,12 +1,12 @@
 // settings
 
 export const SIZE_CONVERSION = {
-	b: 1,
-	kb: 10 ** 3,
-	mb: 10 ** 6,
-	gb: 10 ** 9,
-	tb: 10 ** 12, // cheeky
-	pb: 10 ** 15, // extra cheeky
+  b: 1,
+  kb: 10 ** 3,
+  mb: 10 ** 6,
+  gb: 10 ** 9,
+  tb: 10 ** 12, // cheeky
+  pb: 10 ** 15, // extra cheeky
 };
 
 /** note: this is NOT comprehensive; only strips coloring this lib uses */
@@ -14,30 +14,31 @@ export const ANSI_COLOR_REGEX = /\u001b[^m]+m/g;
 
 /** interpret human-readable sizes as bytes */
 export function parseSize(size: string): number {
-	try {
-		const num = parseFloat(size);
-		if (Number.isNaN(num)) throw new Error();
-		const sizeLower = size.toLocaleLowerCase();
-		let suffix: keyof typeof SIZE_CONVERSION = 'b';
-		if (sizeLower.includes('k')) suffix = 'kb';
-		else if (sizeLower.includes('m')) suffix = 'mb';
-		else if (sizeLower.includes('g')) suffix = 'gb'; // note: "megabyte" includes a "g" but has already been eliminated
-		else if (sizeLower.includes('t')) suffix = 'tb';
-		else if (sizeLower.includes('p')) suffix = 'pb';
-		return num * SIZE_CONVERSION[suffix];
-	} catch {
-		throw new Error(`Could not parse "${size}". Try this format: "120.5 kB".`);
-	}
+  try {
+    const num = parseFloat(size);
+    if (Number.isNaN(num)) throw new Error();
+    const sizeLower = size.toLocaleLowerCase();
+    let suffix: keyof typeof SIZE_CONVERSION = 'b';
+    if (sizeLower.includes('k')) suffix = 'kb';
+    else if (sizeLower.includes('m')) suffix = 'mb';
+    else if (sizeLower.includes('g'))
+      suffix = 'gb'; // note: "megabyte" includes a "g" but has already been eliminated
+    else if (sizeLower.includes('t')) suffix = 'tb';
+    else if (sizeLower.includes('p')) suffix = 'pb';
+    return num * SIZE_CONVERSION[suffix];
+  } catch {
+    throw new Error(`Could not parse "${size}". Try this format: "120.5 kB".`);
+  }
 }
 
 export function padLeft(str: string, length: number): string {
-	const len = Math.max(length - str.replace(ANSI_COLOR_REGEX, '').length, 0);
-	return ' '.repeat(len) + str;
+  const len = Math.max(length - str.replace(ANSI_COLOR_REGEX, '').length, 0);
+  return ' '.repeat(len) + str;
 }
 
 export function padRight(str: string, length: number): string {
-	const len = Math.max(length - str.replace(ANSI_COLOR_REGEX, '').length, 0);
-	return str + ' '.repeat(len);
+  const len = Math.max(length - str.replace(ANSI_COLOR_REGEX, '').length, 0);
+  return str + ' '.repeat(len);
 }
 
 /**
