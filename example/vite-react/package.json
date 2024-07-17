@@ -9,20 +9,22 @@
     "dev:viz": "bundlesize viz"
   },
   "dependencies": {
-    "@apollo/client": "^3.9.5",
-    "graphql": "^16.8.1",
+    "@apollo/client": "^3.10.8",
+    "graphql": "^16.9.0",
     "lodash": "^4.17.21",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "react-router-dom": "^6.22.2",
-    "three": "^0.147.0"
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-router-dom": "^6.25.0",
+    "three": "^0.166.1"
   },
   "devDependencies": {
-    "@types/react": "^18.2.63",
-    "@types/react-dom": "^18.2.20",
-    "@vitejs/plugin-react-swc": "^3.6.0",
-    "typescript": "^5.3.3",
-    "vite": "^5.1.5",
-    "vite-plugin-bundlesize": "workspace:^"
+    "@types/node": "^20.14.11",
+    "@types/react": "^18.3.3",
+    "@types/react-dom": "^18.3.0",
+    "@vitejs/plugin-react-swc": "^3.7.0",
+    "del-cli": "^5.1.0",
+    "typescript": "^5.5.3",
+    "vite": "^5.3.4",
+    "vite-plugin-bundlesize": "../../"
   }
 }

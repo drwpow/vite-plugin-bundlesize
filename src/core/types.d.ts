@@ -9,7 +9,7 @@ export interface BundleChunk {
   isEntry: boolean;
   /** in bytes */
   size: number;
-  contents: {[fileID: string]: BundleContent};
+  contents: { [fileID: string]: BundleContent };
 }
 
 export interface BundleContent {

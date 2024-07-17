@@ -4,8 +4,6 @@ Vite plugin for inspecting bundlesizes and enforcing limits on the amount of JS 
 
 Inspired by [webpack-bundle-analyzer](https://github.com/webpack-contrib/webpack-bundle-analyzer) and [Bundlephobia](https://bundlephobia.com/).
 
-⚠️ Status: **alpha**. Sizes shown may not be accurate!
-
 ![screenshot](./docs/images/vite-plugin-bundlesize.png)
 
 ## Setup
@@ -28,15 +26,15 @@ npm install --dev vite-plugin-bundlesize
 And add to your [Vite config plugins](https://vitejs.dev/config/shared-options.html#plugins). Also be sure to enable [sourcemaps](https://vitejs.dev/config/build-options.html#build-sourcemap) as this is needed to calculate the sizes more accurately (setting it to `hidden` is recommended):
 
 ```diff
-  import { defineConfig } from 'vite';
-+ import bundlesize from 'vite-plugin-bundlesize';
+  import { defineConfig } from "vite";
++ import bundlesize from "vite-plugin-bundlesize";
 
   export default defineConfig({
     plugins: [
 +     bundlesize(),
     ],
 +   build: {
-+     sourcemap: 'hidden',
++     sourcemap: "hidden",
 +   },
   });
 ```
@@ -58,16 +56,16 @@ This will reuse the existing data saved to `bundlemeta.json` from the last build
 Add a `limits` option to enforce limits on entry files:
 
 ```diff
-  import { defineConfig } from 'vite';
-  import bundlesize from 'vite-plugin-bundlesize';
+  import { defineConfig } from "vite";
+  import bundlesize from "vite-plugin-bundlesize";
 
   export default defineConfig({
     plugins: [
 -     bundlesize(),
 +     bundlesize({
 +       limits: [
-+         {name: 'assets/index-*.js', limit: '100 kB'},
-+         {name: '**/*',              limit: '150 kB'},
++         { name: "assets/index-*.js", limit: "100 kB" },
++         { name: "**/*",              limit: "150 kB" },
 +       ],
 +     }),
     ],
@@ -85,16 +83,16 @@ Note that **only entry files are checked.** vite-plugin-bundlesize won’t measu
 To ignore a chunk, set `limit: Infinity`:
 
 ```diff
-  import { defineConfig } from 'vite';
-  import bundlesize from 'vite-plugin-bundlesize';
+  import { defineConfig } from "vite";
+  import bundlesize from "vite-plugin-bundlesize";
 
   export default defineConfig({
     plugins: [
       bundlesize({
         limits: [
-          {name: 'assets/index-*.js',   limit: '100 kB'},
-+         {name: 'assets/ignored-*.js', limit: Infinity},
-          {name: '**/*',                limit: '150 kB'},
+          { name: "assets/index-*.js",   limit: "100 kB" },
++         { name: "assets/ignored-*.js", limit: Infinity },
+          { name: "**/*",                limit: "150 kB" },
         ],
       }),
 ```
@@ -104,8 +102,8 @@ To ignore a chunk, set `limit: Infinity`:
 By default, this plugin will **cause `vite build` to error and exit** when a chunk exceeds a certain limit (as opposed to [build.chunkSizeWarningLimit](https://vitejs.dev/config/build-options.html#build-chunksizewarninglimit) which will only warn). In order to allow every build to pass and only show warnings, add `allowFail: true`:
 
 ```diff
-  import { defineConfig } from 'vite';
-  import bundlesize from 'vite-plugin-bundlesize';
+  import { defineConfig } from "vite";
+  import bundlesize from "vite-plugin-bundlesize";
 
   export default defineConfig({
     plugins: [
@@ -125,7 +123,7 @@ If `allowFail: true` is set, you’ll have to run `npx bundlesize` after every b
 | `outputFile` |       `string`       | Change the location/name of `bundlemeta.json`                                      |
 | `limits`     |      `Limit[]`       | See [enforcing size limits](#enforcing-size-limits)                                |
 | `allowFail`  |      `boolean`       | Allow `vite build` to succeed even if limits are exceeded ([docs](#exiting-build)) |
-| `stats`      | `'summary' \| 'all'` | Show a **summary** of failed chunks (default), or view **all** stats.              |
+| `stats`      | `"summary" \| "all"` | Show a **summary** of failed chunks (default), or view **all** stats.              |
 
 ## Troubleshooting
 
