@@ -1,8 +1,10 @@
 .github
-.prettierrc
+.vscode
 eslint.config.js
 **/*.test.*
+biome.json
 docs
 example
+src
 tsconfig.json
 pnpm-workspace.yaml
