@@ -1,17 +1,17 @@
-import type { BundleChunk, BundleMetadata } from "./types.js";
 import picomatch from "picomatch";
+import type { ResolvedConfig } from "../plugin/index.js";
 import {
   DIM,
   FG_GREEN_79,
   FG_MAGENTA_200,
   FG_RED_197,
   FG_YELLOW_220,
+  RESET,
   padLeft,
   padRight,
   parseSize,
-  RESET,
 } from "./lib.js";
-import type { ResolvedConfig } from "../plugin/index.js";
+import type { BundleChunk, BundleMetadata } from "./types.js";
 
 export const DEFAULT_LIMIT = 150_000; // 150 kB
 
