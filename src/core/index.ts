@@ -22,7 +22,11 @@ export default function analyze({
   bundlemeta,
   config,
   version,
-}: { bundlemeta: BundleMetadata; config: ResolvedConfig; version: string }) {
+}: {
+  bundlemeta: BundleMetadata;
+  config: ResolvedConfig;
+  version: string;
+}) {
   // 1. print header
   console.log(`${FG_MAGENTA_200}⚡ vite-plugin-bundlesize${RESET}
    ${DIM}v${version}${RESET}`);
@@ -46,13 +50,18 @@ export default function analyze({
     const limit = globMatch || { name: "**/*", limit: DEFAULT_LIMIT };
     const maxSize =
       typeof limit.limit === "string" ? parseSize(limit.limit) : limit.limit;
+    const entrySize = {
+      uncompressed: entry.size,
+      gzip: entry.sizeGzip,
+      brotli: entry.sizeBrotli,
+    }[limit.mode || "uncompressed"];
     passed.push(
-      !Number.isFinite(maxSize) || maxSize <= 0 || entry.size <= maxSize,
+      !Number.isFinite(maxSize) || maxSize <= 0 || entrySize <= maxSize,
     );
     chunks.push(entry);
-    sizes.push(nf.format(entry.size / 1000));
+    sizes.push(nf.format(entrySize / 1000));
     limits.push(
-      `${nf.format((typeof limit.limit === "string" ? parseSize(limit.limit) : limit.limit) / 1000)} kB`,
+      `${nf.format((typeof limit.limit === "string" ? parseSize(limit.limit) : limit.limit) / 1000)} kB${limit.mode === "gzip" ? " (gz)" : limit.mode === "brotli" ? " (br)" : ""}`,
     );
   }
   if (passed.every((status) => status === true)) {
@@ -91,10 +100,10 @@ export default function analyze({
     const a = nf.format(nodeModulesTotal / 1000);
     const b = nf.format((chunks[i].size - nodeModulesTotal) / 1000);
     console.log(
-      `${ls}${DIM}- node_modules  ${padLeft(a, Math.max(a.length, b.length))}${RESET}`,
+      `${ls}${DIM}- node_modules  ${padLeft(a, Math.max(a.length, b.length))} kB (uncompressed)${RESET}`,
     );
     console.log(
-      `${ls}${DIM}- local         ${padLeft(b, Math.max(a.length, b.length))}${RESET}`,
+      `${ls}${DIM}- local         ${padLeft(b, Math.max(a.length, b.length))} kB (uncompressed)${RESET}`,
     );
     console.log(ls); // newline
 

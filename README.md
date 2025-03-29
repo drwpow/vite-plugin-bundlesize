@@ -10,7 +10,7 @@ Inspired by [webpack-bundle-analyzer](https://github.com/webpack-contrib/webpack
 
 ### Requirements
 
-- **Vite 4.x/5.x**
+- Vite >= 5.0
 - `"type": "module"` enabled in your project’s `package.json` ([docs](https://nodejs.org/api/packages.html#type))
 
 ### Installing
@@ -64,8 +64,8 @@ Add a `limits` option to enforce limits on entry files:
 -     bundlesize(),
 +     bundlesize({
 +       limits: [
-+         { name: "assets/index-*.js", limit: "100 kB" },
-+         { name: "**/*",              limit: "150 kB" },
++         { name: "assets/index-*.js", limit: "100 kB", mode: "uncompressed" },
++         { name: "**/*",              limit: "150 kB", mode: "uncompressed" },
 +       ],
 +     }),
     ],
@@ -74,7 +74,14 @@ Add a `limits` option to enforce limits on entry files:
 
 - The `name` field is a glob matched by [picomatch](https://github.com/micromatch/picomatch).
 - The `limit` field can be any human-readable size. We recommend `150 kB` which is the default, but you may raise or lower that number as needed.
+- The `mode` may be `"uncompressed"` (default), `"gzip"`, or `"brotli"` \*.
 - The order of the array matters. Only the first `name` a file matches with will apply, so order your matches from more-specific to less-specific.
+
+> [!NOTE]
+>
+> Note on `gzip` and `brotli` compression: the stats that show how each chunk breaks down into what modules
+> only rely on `"uncompressed"` sizes for %s. `gzip` and `brotli` rely on repetition, therefore each module
+> does not contribute to the compressed size in 1:1 proportion with its unpacked size.
 
 Note that **only entry files are checked.** vite-plugin-bundlesize won’t measure lazy-loaded code because that is not render blocking. Ideally this helps you focus on only meaningful metrics in regards to bundle sizes.
 
@@ -118,12 +125,15 @@ If `allowFail: true` is set, you’ll have to run `npx bundlesize` after every b
 
 ## All options
 
-| Name         |         Type         | Description                                                                        |
-| :----------- | :------------------: | :--------------------------------------------------------------------------------- |
-| `outputFile` |       `string`       | Change the location/name of `bundlemeta.json`                                      |
-| `limits`     |      `Limit[]`       | See [enforcing size limits](#enforcing-size-limits)                                |
-| `allowFail`  |      `boolean`       | Allow `vite build` to succeed even if limits are exceeded ([docs](#exiting-build)) |
-| `stats`      | `"summary" \| "all"` | Show a **summary** of failed chunks (default), or view **all** stats.              |
+| Name         |                  Type                  | Description                                                                                   |
+| :----------- | :------------------------------------: | :-------------------------------------------------------------------------------------------- |
+| `outputFile` |                `string`                | Change the location/name of `bundlemeta.json`                                                 |
+| `limits`     |               `Limit[]`                | See [enforcing size limits](#enforcing-size-limits)                                           |
+| `allowFail`  |               `boolean`                | Allow `vite build` to succeed even if limits are exceeded ([docs](#exiting-build))            |
+| `stats`      |          `"summary" \| "all"`          | Show a **summary** of failed chunks (default), or view **all** stats.                         |
+| `mode`       | `"uncompressed" \| "gzip" \| "brotli"` | Whether or not to take compression into account for size limits\* (default: `"uncompressed"`) |
+
+\*_Note: this plugin will NOT compress anything for you! This is only for reporting purposes._
 
 ## Troubleshooting
 

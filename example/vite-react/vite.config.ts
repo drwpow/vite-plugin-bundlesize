@@ -6,7 +6,7 @@ export default defineConfig({
   plugins: [
     react(),
     bundlesize({
-      limits: [{ name: "assets/index-*.js", limit: "120 kB" }],
+      limits: [{ name: "assets/index-*.js", limit: "50 kB", mode: "brotli" }],
     }),
   ],
   build: {

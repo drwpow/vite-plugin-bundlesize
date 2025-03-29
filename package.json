@@ -1,6 +1,6 @@
 {
   "name": "vite-plugin-bundlesize",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Monitor bundle sizes and analyze bundle contents",
   "type": "module",
   "scripts": {
@@ -48,14 +48,12 @@
     "vlq": "^2.0.4"
   },
   "devDependencies": {
-    "@biomejs/biome": "^1.8.3",
-    "@types/node": "^20.14.11",
+    "@biomejs/biome": "^1.9.4",
+    "@types/node": "^22.13.14",
     "@types/picomatch": "^2.3.4",
-    "@typescript-eslint/eslint-plugin": "^7.16.1",
-    "@typescript-eslint/parser": "^7.16.1",
-    "del-cli": "^5.1.0",
-    "typescript": "^5.5.3",
-    "vite": "^5.3.4",
-    "vitest": "^1.6.0"
+    "del-cli": "^6.0.0",
+    "typescript": "^5.8.2",
+    "vite": "^6.2.3",
+    "vitest": "^3.0.9"
   }
 }

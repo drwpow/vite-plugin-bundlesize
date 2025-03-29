@@ -1,3 +1,5 @@
+import { Buffer } from "node:buffer";
+import zlib from "node:zlib";
 import stripAnsi from "strip-ansi";
 
 // settings
@@ -47,9 +49,24 @@ export function padRight(str: string, length: number): string {
   return str + " ".repeat(len);
 }
 
-/**
- * ANSI colors
- */
+export function measure(
+  source: string,
+  mode: "uncompressed" | "gzip" | "brotli" = "uncompressed",
+) {
+  switch (mode) {
+    case "gzip": {
+      return zlib.gzipSync(source).byteLength;
+    }
+    case "brotli": {
+      return zlib.brotliCompressSync(source).byteLength;
+    }
+    default: {
+      return Buffer.byteLength(source, "utf8");
+    }
+  }
+}
+
+/** ANSI colors */
 export const SUPPORTS_COLOR =
   process.stdout.isTTY && process.env.NODE_DISABLE_COLOR !== "true";
 

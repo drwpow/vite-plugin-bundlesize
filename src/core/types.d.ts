@@ -7,8 +7,10 @@ export interface BundleMetadata {
 export interface BundleChunk {
   id: string;
   isEntry: boolean;
-  /** in bytes */
+  // all sizes in bytes
   size: number;
+  sizeGzip: number;
+  sizeBrotli: number;
   contents: { [fileID: string]: BundleContent };
 }
 
