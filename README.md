@@ -72,10 +72,15 @@ Add a `limits` option to enforce limits on entry files:
   });
 ```
 
-- The `name` field is a glob matched by [picomatch](https://github.com/micromatch/picomatch).
-- The `limit` field can be any human-readable size. We recommend `150 kB` which is the default, but you may raise or lower that number as needed.
-- The `mode` may be `"uncompressed"` (default), `"gzip"`, or `"brotli"` \*.
-- The order of the array matters. Only the first `name` a file matches with will apply, so order your matches from more-specific to less-specific.
+`limits` is an array of the following; 
+
+| Name    | Type            | Default    | Description                                                                                   |
+| :------ | :-------------: | :-----:|:-------------------------------------------------------------------------------------------- |
+| `name`  | `string`        |        | A glob matched by [picomatch](https://github.com/micromatch/picomatch). |
+| `limit` | `string`        | `"150 kB"`| Any human-readable size. We recommend `150 kB` which is the default, but you may raise or lower that number as needed. |
+| `mode`  | `"gzip" \| "brotli" \|"uncompressed"` | `"uncompressed"` | Whether or not to take compression into account for size limits. _Note: this plugin will NOT compress anything for you! This is only for reporting purposes._  |
+
+The order of the array matters. Only the first `name` a file matches with will apply, so order your matches from more-specific to less-specific.
 
 > [!NOTE]
 >
@@ -125,15 +130,13 @@ If `allowFail: true` is set, you’ll have to run `npx bundlesize` after every b
 
 ## All options
 
-| Name         |                  Type                  | Description                                                                                   |
-| :----------- | :------------------------------------: | :-------------------------------------------------------------------------------------------- |
-| `outputFile` |                `string`                | Change the location/name of `bundlemeta.json`                                                 |
-| `limits`     |               `Limit[]`                | See [enforcing size limits](#enforcing-size-limits)                                           |
-| `allowFail`  |               `boolean`                | Allow `vite build` to succeed even if limits are exceeded ([docs](#exiting-build))            |
-| `stats`      |          `"summary" \| "all"`          | Show a **summary** of failed chunks (default), or view **all** stats.                         |
-| `mode`       | `"uncompressed" \| "gzip" \| "brotli"` | Whether or not to take compression into account for size limits\* (default: `"uncompressed"`) |
+| Name         |                  Type                  | Default    | Description                                                                                   |
+| :----------- | :------------------------------------: | :---------:|:-------------------------------------------------------------------------------------------- |
+| `outputFile` |                `string`                | `"bundlemeta.json"` | Change the location/name of `bundlemeta.json`                                                 |
+| `limits`     |               `Limit[]`                |            | See [enforcing size limits](#enforcing-size-limits)                                           |
+| `allowFail`  |               `boolean`                | false      | Allow `vite build` to succeed even if limits are exceeded ([docs](#exiting-build))            |
+| `stats`      |          `"summary" \| "all"`          | `"summary"`| Show a **summary** of failed chunks, or view **all** stats.                         |
 
-\*_Note: this plugin will NOT compress anything for you! This is only for reporting purposes._
 
 ## Troubleshooting
 
