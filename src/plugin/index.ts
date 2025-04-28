@@ -47,6 +47,12 @@ export interface Options {
    * @default "bundlemeta.json"
    */
   outputFile?: string;
+  /**
+   * Only check the entry point of the bundle, not all chunks.
+   * Useful if you're only focused on render blocking code.
+   * @default false
+   */
+  entryPointOnly?: boolean;
 }
 
 export interface ResolvedConfig {
@@ -54,6 +60,7 @@ export interface ResolvedConfig {
   limits: Limit[];
   allowFail: NonNullable<Options["allowFail"]>;
   stats: NonNullable<Options["stats"]>;
+  entryPointOnly: NonNullable<Options["entryPointOnly"]>;
 }
 
 export default function vitePluginBundlesize(options?: Options): Plugin {
@@ -91,6 +98,7 @@ export default function vitePluginBundlesize(options?: Options): Plugin {
     limits: options?.limits || [{ name: "*.js", limit: DEFAULT_LIMIT }],
     allowFail: options?.allowFail ?? false,
     stats: options?.stats ?? "summary",
+    entryPointOnly: options?.entryPointOnly ?? false,
   };
 
   const { version } = JSON.parse(
@@ -115,9 +123,13 @@ ${FG_RED_197}✘ vite-plugin-bundlesize: needs "build.sourcemap" enabled.${RESET
     },
     generateBundle(_, bundle) {
       for (const [chunkID, chunk] of Object.entries(bundle)) {
-        if (chunk.type !== "chunk" || !chunk.isEntry) {
+        if (chunk.type !== "chunk") {
           continue;
         }
+        if (resolvedOptions.entryPointOnly && !chunk.isEntry) {
+          continue;
+        }
+        
         if (!chunk.map) {
           console.error(`
 ${FG_RED_197}✘ vite-plugin-bundlesize: needs "build.sourcemap" enabled.${RESET}
@@ -168,7 +180,7 @@ ${FG_RED_197}✘ vite-plugin-bundlesize: needs "build.sourcemap" enabled.${RESET
                 packageNameI++;
               }
               let packageName = parts[packageNameI];
-              if (packageName[0] === "@") {
+              if (packageName.startsWith("@")) {
                 packageName = `${packageName}/${parts[packageNameI + 2]}`;
               }
               contents[filePath].packageName = packageName;

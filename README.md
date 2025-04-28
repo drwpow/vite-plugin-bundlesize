@@ -72,13 +72,13 @@ Add a `limits` option to enforce limits on entry files:
   });
 ```
 
-`limits` is an array of the following; 
+`limits` is an array of the following;
 
-| Name    | Type            | Default    | Description                                                                                   |
-| :------ | :-------------: | :-----:|:-------------------------------------------------------------------------------------------- |
-| `name`  | `string`        |        | A glob matched by [picomatch](https://github.com/micromatch/picomatch). |
-| `limit` | `string`        | `"150 kB"`| Any human-readable size. We recommend `150 kB` which is the default, but you may raise or lower that number as needed. |
-| `mode`  | `"gzip" \| "brotli" \|"uncompressed"` | `"uncompressed"` | Whether or not to take compression into account for size limits. _Note: this plugin will NOT compress anything for you! This is only for reporting purposes._  |
+| Name    |                 Type                  |     Default      | Description                                                                                                                                                   |
+| :------ | :-----------------------------------: | :--------------: | :------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `name`  |               `string`                |                  | A glob matched by [picomatch](https://github.com/micromatch/picomatch).                                                                                       |
+| `limit` |               `string`                |    `"150 kB"`    | Any human-readable size. We recommend `150 kB` which is the default, but you may raise or lower that number as needed.                                        |
+| `mode`  | `"gzip" \| "brotli" \|"uncompressed"` | `"uncompressed"` | Whether or not to take compression into account for size limits. _Note: this plugin will NOT compress anything for you! This is only for reporting purposes._ |
 
 The order of the array matters. Only the first `name` a file matches with will apply, so order your matches from more-specific to less-specific.
 
@@ -87,8 +87,6 @@ The order of the array matters. Only the first `name` a file matches with will a
 > Note on `gzip` and `brotli` compression: the stats that show how each chunk breaks down into what modules
 > only rely on `"uncompressed"` sizes for %s. `gzip` and `brotli` rely on repetition, therefore each module
 > does not contribute to the compressed size in 1:1 proportion with its unpacked size.
-
-Note that **only entry files are checked.** vite-plugin-bundlesize won’t measure lazy-loaded code because that is not render blocking. Ideally this helps you focus on only meaningful metrics in regards to bundle sizes.
 
 #### Ignoring chunks
 
@@ -108,6 +106,8 @@ To ignore a chunk, set `limit: Infinity`:
         ],
       }),
 ```
+
+While it's possible to increase the limit globally with `{ name: "**/*", limit: Infinity }`. It is not recommended and you should prefer being explicit as to which files you are excluding.
 
 #### Exiting build
 
@@ -130,13 +130,13 @@ If `allowFail: true` is set, you’ll have to run `npx bundlesize` after every b
 
 ## All options
 
-| Name         |                  Type                  | Default    | Description                                                                                   |
-| :----------- | :------------------------------------: | :---------:|:-------------------------------------------------------------------------------------------- |
-| `outputFile` |                `string`                | `"bundlemeta.json"` | Change the location/name of `bundlemeta.json`                                                 |
-| `limits`     |               `Limit[]`                |            | See [enforcing size limits](#enforcing-size-limits)                                           |
-| `allowFail`  |               `boolean`                | false      | Allow `vite build` to succeed even if limits are exceeded ([docs](#exiting-build))            |
-| `stats`      |          `"summary" \| "all"`          | `"summary"`| Show a **summary** of failed chunks, or view **all** stats.                         |
-
+| Name             |         Type         |       Default       | Description                                                                                                                         |
+| :--------------- | :------------------: | :-----------------: | :---------------------------------------------------------------------------------------------------------------------------------- |
+| `outputFile`     |       `string`       | `"bundlemeta.json"` | Change the location/name of `bundlemeta.json`                                                                                       |
+| `limits`         |      `Limit[]`       |                     | See [enforcing size limits](#enforcing-size-limits)                                                                                 |
+| `allowFail`      |      `boolean`       |        false        | Allow `vite build` to succeed even if limits are exceeded ([docs](#exiting-build))                                                  |
+| `stats`          | `"summary" \| "all"` |     `"summary"`     | Show a **summary** of failed chunks, or view **all** stats.                                                                         |
+| `entryPointOnly` |      `boolean`       |        false        | When true, the tool will only check entry points and not all chunks. This is useful if you're only focused on render blocking code. |
 
 ## Troubleshooting
 
