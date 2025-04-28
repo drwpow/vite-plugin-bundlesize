@@ -189,7 +189,7 @@ ${FG_RED_197}✘ vite-plugin-bundlesize: needs "build.sourcemap" enabled.${RESET
         }
         bundlemeta.chunks[chunkID] = {
           id: chunkID,
-          isEntry: true,
+          isEntry: chunk.isEntry,
           size: measure(chunk.code),
           sizeGzip: measure(chunk.code, "gzip"),
           sizeBrotli: measure(chunk.code, "brotli"),
