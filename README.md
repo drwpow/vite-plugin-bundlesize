@@ -10,8 +10,7 @@ Inspired by [webpack-bundle-analyzer](https://github.com/webpack-contrib/webpack
 
 ### Requirements
 
-- Vite >= 5.0
-- `"type": "module"` enabled in your project’s `package.json` ([docs](https://nodejs.org/api/packages.html#type))
+- Vite >= 6.0
 
 ### Installing
 
@@ -53,7 +52,7 @@ This will reuse the existing data saved to `bundlemeta.json` from the last build
 
 ### Enforcing size limits
 
-Add a `limits` option to enforce limits on entry files:
+Add a `limits` option to enforce limits on chunks:
 
 ```diff
   import { defineConfig } from "vite";

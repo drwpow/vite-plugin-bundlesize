@@ -6,10 +6,10 @@ import {
   FG_MAGENTA_200,
   FG_RED_197,
   FG_YELLOW_220,
-  RESET,
   padLeft,
   padRight,
   parseSize,
+  RESET,
 } from "./lib.js";
 import type { BundleChunk, BundleMetadata } from "./types.js";
 
