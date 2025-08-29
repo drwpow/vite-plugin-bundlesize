@@ -36,9 +36,6 @@ export default function analyze({
   const sizes: string[] = [];
   const limits: string[] = [];
   for (const entry of Object.values(bundlemeta.chunks)) {
-    if (!entry.isEntry) {
-      continue;
-    }
     const globMatch = config.limits.find(
       (l) => l.name && picomatch(l.name)(entry.id),
     );
@@ -72,8 +69,9 @@ export default function analyze({
     );
   }
   for (let i = 0; i < chunks.length; i++) {
+    const isEntry = chunks[i].isEntry ? "(entry)" : "(chunk)";
     console.log(
-      `${passed[i] ? `${FG_GREEN_79}✔${RESET}` : `${FG_RED_197}✘${RESET}`}  ${padRight(chunks[i].id, Math.max(...chunks.map((c) => c.id.length)))}  ${passed[i] ? FG_GREEN_79 : FG_RED_197}${padLeft(
+      `${passed[i] ? `${FG_GREEN_79}✔${RESET}` : `${FG_RED_197}✘${RESET}`}  ${padRight(`${chunks[i].id} ${isEntry}`, Math.max(...chunks.map((c) => c.id.length + 8)))}  ${passed[i] ? FG_GREEN_79 : FG_RED_197}${padLeft(
         sizes[i],
         Math.max(...sizes.map((s) => s.length)),
       )} / ${padLeft(limits[i], Math.max(...limits.map((l) => l.length)))}${RESET}`,
@@ -92,7 +90,7 @@ export default function analyze({
       ? `${FG_GREEN_79}│  ${RESET}`
       : `${FG_RED_197}│  ${RESET}`;
     console.log(
-      `${passed[i] ? `${FG_GREEN_79}✔${RESET}` : `${FG_RED_197}✘${RESET}`}  ${chunks[i].id}`,
+      `${passed[i] ? `${FG_GREEN_79}✔${RESET}` : `${FG_RED_197}✘${RESET}`}  ${chunks[i].id} ${chunks[i].isEntry ? "(entry)" : "(chunk)"}`,
     );
     console.log(
       `${ls}${passed[i] ? FG_GREEN_79 : FG_RED_197}${sizes[i]} / ${limits[i]}${RESET}`,
