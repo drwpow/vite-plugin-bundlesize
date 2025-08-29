@@ -19,6 +19,7 @@
     "type": "git",
     "url": "git+https://github.com/drwpow/vite-plugin-bundlesize.git"
   },
+  "packageManager": "pnpm@10.15.0",
   "keywords": [
     "vite",
     "bundle",
