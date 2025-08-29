@@ -4,7 +4,7 @@ import { URL } from "node:url";
 import type { Plugin, UserConfig } from "vite";
 import * as vlq from "vlq";
 import analyze, { DEFAULT_LIMIT } from "../core/index.js";
-import { FG_BLUE_33, FG_RED_197, RESET, measure } from "../core/lib.js";
+import { FG_BLUE_33, FG_RED_197, measure, RESET } from "../core/lib.js";
 import type { BundleContent, BundleMetadata } from "../core/types.js";
 
 export interface Limit {
@@ -129,7 +129,7 @@ ${FG_RED_197}✘ vite-plugin-bundlesize: needs "build.sourcemap" enabled.${RESET
         if (resolvedOptions.entryPointOnly && !chunk.isEntry) {
           continue;
         }
-        
+
         if (!chunk.map) {
           console.error(`
 ${FG_RED_197}✘ vite-plugin-bundlesize: needs "build.sourcemap" enabled.${RESET}
